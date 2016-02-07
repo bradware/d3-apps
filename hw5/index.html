@@ -10,8 +10,6 @@
             }
             .chart rect {
               fill: steelblue; /* overriden with d3 styling */
-              /* Add black borders to the rectangles */
-              border: 3px solid black;
             }
             .chart text {
               fill: white;
@@ -27,7 +25,7 @@
         </style>
     </head>
     <body>
-        <p>I hope you see this on your webpage!</p>
+        <p>HW 5</p>
         <svg class="chart"></svg>
         <script type="text/javascript">
 
@@ -101,9 +99,7 @@
                     return "gold";
                   }
                 })
-                .style("stroke", "black") /* Add black borders to the rectangles */
-                .style("stroke-width", 1); /* Add black borders to the rectangles */
-
+                .style("stroke", "black").style("stroke-width", 1); /* Add black borders to the rectangles */
 
               //##############    5    ####################
               //Adding y labels to our bars
