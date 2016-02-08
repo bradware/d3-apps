@@ -10,14 +10,17 @@
     <meta name="author" content="Brad Ware">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/bootstrap/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap/bootstrap-theme.min.css">
 
     <!-- JS -->
     <script type="text/javascript" src="../assets/d3/d3.min.js"></script>
 
     <!-- Styles -->
     <style>
+      body {
+        padding: 5%;
+      }
       .chart {
         background: aqua;
       }
@@ -37,7 +40,7 @@
     </style>
     <!-- End of Header -->
   </head>
-  <body>
+  <body class="container-fluid text-center">
     <h1>I hope you see this on your webpage!</h1>
     <svg class="chart"></svg>
     <script type="text/javascript">
@@ -73,7 +76,6 @@
 
         var y_translate = 50;
         /* Talk about this later */
-
 
         //##############    3    ####################
         //Grabbing data and binding it to the bars

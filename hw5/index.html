@@ -10,22 +10,25 @@
     <meta name="author" content="Brad Ware">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/bootstrap/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap/bootstrap-theme.min.css">
 
     <!-- JS -->
     <script type="text/javascript" src="../assets/d3/d3.min.js"></script>
 
     <!-- Styles -->
     <style>
+      body {
+        padding: 5%;
+      }
       .chart {
-        background: #cfcfcf; /* Make the SVG background color #cfcfcf */
+        background: #CFCFCF; /* Make the SVG background color #cfcfcf */
       }
       .chart rect {
         fill: steelblue; /* overriden with d3 styling */
       }
       .chart text {
-        fill: white;
+        fill: black;
         font: 10px sans-serif;
         text-anchor: middle;
       }
@@ -37,7 +40,7 @@
     </style>
     <!-- End of Header -->
   </head>
-  <body>
+  <body class="container-fluid text-center">
     <h1>HW 5</h1>
     <svg class="chart"></svg>
     <script type="text/javascript">
@@ -67,6 +70,7 @@
         };
       },  
         function(error, data) {
+          
           //Logging data to the console so we can make sure the data is bound
           console.log(data);
           //Set our scale domains
