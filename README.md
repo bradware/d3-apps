@@ -1,2 +1,2 @@
 # CS4460-Spring2016
-Brad Ware's CS 4460 repo
+run `python -m SimpleHTTPServer` from the root dir to see my projects.
