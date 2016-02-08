@@ -1,111 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>D3 Test</title>
-        <script type="text/javascript" src="../assets/d3/d3.min.js"></script>
-        <style>
-            .chart {
-              background: aqua;
+  <head>
+    <title>Class Excercise | Brad Ware</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="brad, ware, brad ware, bradford, ware, bradford ware, Brad, Ware, Brad Ware, Bradford, Ware, Bradford Ware, Georgia Tech, Tech, georgia tech, gt, GT, tech, computer, science, Computer, Science, Computer Science, software, engineer, software engineer, Software Engineer, college student, atlanta, Atlanta">
+    <meta name="description" content="Brad Ware's personal website. Brad is a current Georgia Tech senior studying Computer Science from Atlanta, GA.">
+    <meta name="author" content="Brad Ware">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap-theme.min.css">
+
+    <!-- JS -->
+    <script type="text/javascript" src="../assets/d3/d3.min.js"></script>
+
+    <!-- Styles -->
+    <style>
+      .chart {
+        background: aqua;
+      }
+      .chart rect {
+        fill: steelblue;
+      }
+      .chart text {
+        fill: white;
+        font: 10px sans-serif;
+        text-anchor: middle;
+      }
+      text .xText{
+        fill: black;
+        font: 10px sans-serif;
+        text-anchor: middle;
+      }
+    </style>
+    <!-- End of Header -->
+  </head>
+  <body>
+    <h1>I hope you see this on your webpage!</h1>
+    <svg class="chart"></svg>
+    <script type="text/javascript">
+
+      //##############    1    ####################
+      //Setting the size of our canvas
+      var width = 780; 
+      var height = 460; 
+
+      //Setting our x and y axes
+      //RangeRoundBands returns the band width. Decimal value is the padding
+      //Range provides the band height (because of the inverted values).
+      var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
+      var y = d3.scale.linear().range([height, 0]);
+
+      //Creating our chart and grabbing attributes from ".chart" in header
+      var chart = d3.select(".chart")
+          .attr("width", width)
+          .attr("height", height);
+  
+
+      //##############    2    ####################
+      //Pulling data from .json file 
+      d3.json("data/state_data.json", function(error, data) {
+
+        //Logging data to the console so we can make sure the data is bound
+        console.log(data);
+
+        //Set our scale domains
+        //data.map creates a new array with the result of a function of every element in the array
+        x.domain(data.map(function(d) { return d.state; }));
+        y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+        var y_translate = 50;
+        /* Talk about this later */
+
+
+        //##############    3    ####################
+        //Grabbing data and binding it to the bars
+        //"G" groups all the svg elements together
+        var bar = chart.selectAll("g")
+          .data(data)
+          .enter()
+          .append("g")
+          .attr("transform", function(d) { return "translate("+ x(d.state) +",0)"; });
+        // Translate arranges all the "g" elements on the X axis.
+        // Without the translate, all the groups would be drawn at the same position
+
+        //##############    4    ####################
+        //Generating rectangle SVG elements for our data
+        bar.append("rect")
+          .attr("y", function(d) { return y(d.value); }) // Setting the Y position of individual bars based on the data
+          .attr("height", function(d) { return height - y_translate - y(d.value); }) // At the chosen Y position, we're now specifying height.
+          .attr("width", x.rangeBand())
+
+          .style("fill", function(d){
+            if(d.value > 30){
+              return "#00CC33"; // Specifying a different color for the bar based on the value
+
             }
-            .chart rect {
-              fill: steelblue;
-            }
-            .chart text {
-              fill: white;
-              font: 10px sans-serif;
-              text-anchor: middle;
-            }
-
-             text.xText{
-              fill: black;
-              font: 10px sans-serif;
-              text-anchor: middle;
-            }
-        </style>
-    </head>
-    <body>
-        <p>I hope you see this on your webpage!</p>
-        <svg class="chart"></svg>
-        <script type="text/javascript">
-
-          //##############    1    ####################
-          //Setting the size of our canvas
-          var width = 780; 
-          var height = 460; 
-
-          //Setting our x and y axes
-          //RangeRoundBands returns the band width. Decimal value is the padding
-          //Range provides the band height (because of the inverted values).
-          var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
-          var y = d3.scale.linear().range([height, 0]);
-
-          //Creating our chart and grabbing attributes from ".chart" in header
-          var chart = d3.select(".chart")
-              .attr("width", width)
-              .attr("height", height);
-      
-
-          //##############    2    ####################
-          //Pulling data from .json file 
-          d3.json("data/state_data.json", function(error, data){
-
-            //Set our scale domains
-            //data.map creates a new array with the result of a function of every element in the array
-            x.domain(data.map(function(d) { return d.state; }));
-            y.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-            var y_translate = 50;
-            /* Talk about this later */
-
-
-            //##############    3    ####################
-            //Grabbing data and binding it to the bars
-            //"G" groups all the svg elements together
-            var bar = chart.selectAll("g")
-              .data(data)
-              .enter()
-              .append("g")
-              .attr("transform", function(d) { return "translate("+ x(d.state) +",0)"; });
-            // Translate arranges all the "g" elements on the X axis.
-            // Without the translate, all the groups would be drawn at the same position
-
-            //Logging data to the console so we can make sure the data is bound
-            console.log(data);
-
-
-            //##############    4    ####################
-            //Generating rectangle SVG elements for our data
-            bar.append("rect")
-              .attr("y", function(d) { return y(d.value); }) // Setting the Y position of individual bars based on the data
-              .attr("height", function(d) { return height - y_translate - y(d.value); }) // At the chosen Y position, we're now specifying height.
-              .attr("width", x.rangeBand())
-
-              .style("fill", function(d){
-                if(d.value > 30){
-                  return "#00CC33"; // Specifying a different color for the bar based on the value
-
-                }
-              });
-
-
-            //##############    5    ####################
-            //Adding y labels to our bars
-            bar.append("text")
-              .attr("x", x.rangeBand() / 2)
-              .attr("y", function(d) { return y(d.value) + 3; })
-              .attr("dy", ".75em")
-              .text(function(d) { return d.value; });
-
-            //Adding x labels to our bars
-            bar.append("text")
-              .attr("class", "xText")
-              .attr("x", x.rangeBand() / 2)
-              .attr("y", height - y_translate + 5)
-              .attr("dy", ".75em")
-              .text(function(d) { return d.state; });
-
           });
-        </script>
-    </body>
+
+        //##############    5    ####################
+        //Adding y labels to our bars
+        bar.append("text")
+          .attr("x", x.rangeBand() / 2)
+          .attr("y", function(d) { return y(d.value) + 3; })
+          .attr("dy", ".75em")
+          .text(function(d) { return d.value; });
+
+        //Adding x labels to our bars
+        bar.append("text")
+          .attr("class", "xText")
+          .attr("x", x.rangeBand() / 2)
+          .attr("y", height - y_translate + 5)
+          .attr("dy", ".75em")
+          .text(function(d) { return d.state; });
+
+      });
+    </script>
+  </body>
 </html>
