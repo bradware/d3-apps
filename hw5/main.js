@@ -1,4 +1,4 @@
-// self-invoking anonymous function but doesn't use jQuery
+// self-invoking anonymous function, but doesn't use jQuery
 (window.onload = function() {
   
   //##############    1    ####################
@@ -35,8 +35,6 @@
       y.domain([0, d3.max(data, function(d) { return d.gpa; })]);
 
       var y_translate = 50;
-      /* Talk about this later */
-
 
       //##############    3    ####################
       //Grabbing data and binding it to the bars
