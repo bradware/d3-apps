@@ -1,0 +1,23 @@
+.content {
+  padding: 5%;
+}
+
+.chart {
+  background: #CFCFCF; /* Make the SVG background color #cfcfcf */
+}
+
+.chart rect {
+  fill: steelblue; /* overriden with d3 styling */
+}
+
+.chart text {
+  fill: black;
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+text .xText{
+  fill: black;
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
