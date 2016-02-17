@@ -67,8 +67,11 @@ function start() {
     //  </p>
     // </div>
     d3.select(graph)
-        .append('p')
+        .append('div')
         .append('button')
+        .classed('btn btn-primary', true)
+        .style('margin-top', '-25px')
+        .style('margin-bottom', '25px')
         .text('Filter Data')
         .on('click', function() {
             bars.selectAll('.bar')
@@ -102,7 +105,7 @@ function start() {
     //            an error message if the data could not be found, or
     //            was malformed. The 'data' parameter is an array of
     //            rows returned after being processed by the accumulator.
-    d3.csv('data.csv', function(d) {
+    d3.csv('data/data.csv', function(d) {
         d.frequency = +d.frequency;
         return d;
     }, function(error, data) {
