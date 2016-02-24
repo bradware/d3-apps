@@ -32,7 +32,8 @@
 .filters {
   padding-top: 10px;
   padding-bottom: 20px;
+  display: inline !important;
 }
 .form-inline {
-	width: 200px;
+	width: 400px;
 }

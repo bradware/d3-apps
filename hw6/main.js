@@ -76,13 +76,14 @@ function start() {
             var rawInput = gpaInput.node().value;
             var minGPA = handleInput(rawInput);
             var dept = deptInput.node().value;
-            bars.selectAll('.bar')
-                // HERE
+            var sb = bars.selectAll('.bar')
                 .filter(function(d) {
-                    return d.dept === dept;
-                })
-                .filter(function(d) {
-                    return d.gpa < minGPA;
+                    if (d.dept !== dept) {
+                        return d;
+                    }
+                    else if (d.gpa < minGPA) {
+                        return d;
+                    }
                 })
                 .transition()
                     .duration(1000)
@@ -90,6 +91,7 @@ function start() {
                     .attr('width', function(d) {
                         return xScale(0);
                     });
+            console.log(sb);
         });
 
     // D3 will grab all the data from "data.csv" and make it available
