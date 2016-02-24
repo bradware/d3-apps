@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	<title>Filtering & Animation | Brad Ware</title>
+	<title>HW 6 | Brad Ware</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,9 +19,28 @@
 	<!-- End of Header -->
 	</head>
 	<body class="container-fluid">
-		<h4><a href="/">← Back</a></h4>
+		<h4><a href="/" id="back">← Back</a></h4>
 	    <div class="content text-center">
-			<h1>Filtering & Animation</h1>
+			<h1>HW 6</h1>
+			<div class="row">
+				<select class="form-control" id="dept-input">
+				  <option>CHEM</option>
+				  <option>CS</option>
+				  <option>ENGL</option>
+				  <option>HTS</option>
+				  <option>MATH</option>
+				  <option>MGT</option>
+				  <option>PHYS</option>
+				  <option>PSYC</option>
+				</select>
+				<form class="form-inline">
+				  <div class="form-group">
+				    <label for="gpaInput">Min GPA</label>
+				    <input type="text" class="form-control gen-button" id="gpa-input" placeholder="Enter GPA Here">
+				  </div>
+			  	</form>
+				<button type="button gen-button" class="btn" id="filter-button">FILTER</button>
+			</div>
 			<!-- Our graph will be added inside this divider element -->
 			<div id="graph"></div>
 		</div>
