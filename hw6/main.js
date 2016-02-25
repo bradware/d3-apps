@@ -62,15 +62,19 @@ function start() {
     var validateGpaInput = function() {
         var num = Number(gpaInput.node().value);
         if (gpaInput.node().value === '' || isNaN(num) || num < 0 || num > 4) {
+            d3.select('.form-group').classed('has-success', false);
+            d3.select('.form-group').classed('has-error', true);
             return false;
         }
         else {
+            d3.select('.form-group').classed('has-error', false);
+            d3.select('.form-group').classed('has-success', true);
             return true;
         }
     };
 
     var validateInput = function() {
-        if (validateDeptInput() && validateGpaInput()) {
+        if (validateGpaInput() && validateDeptInput()) {
             button.disabled = false;
         } else {
             button.disabled = true;
