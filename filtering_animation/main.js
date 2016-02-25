@@ -69,9 +69,11 @@ function start() {
     d3.select(graph)
         .append('div')
         .append('button')
-        .classed('btn btn-primary', true)
+        .classed('btn', true)
         .style('margin-top', '-25px')
         .style('margin-bottom', '25px')
+        .style('background-color', '#00CC66')
+        .style('color', '#FFFFFF')
         .text('Filter Data')
         .on('click', function() {
             bars.selectAll('.bar')

@@ -21,3 +21,7 @@ text .xText{
   font: 10px sans-serif;
   text-anchor: middle;
 }
+
+a {
+  color: #0066CC; /* rgb(0, 102, 204)*/
+}

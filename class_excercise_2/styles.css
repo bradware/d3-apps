@@ -1,8 +1,8 @@
 .bar {
-  fill: steelblue;
+  fill: #0066CC; /* rgb(0, 102, 204)*/
 }
 .bar:hover {
-  fill: brown;
+  fill: #00CC66; /* rgb(0, 204, 102) */
 }
 .axis {
   font: 10px sans-serif;
@@ -15,4 +15,7 @@
 }
 .x.axis path {
   display: none;
+}
+a {
+  color: #0066CC; /* rgb(0, 102, 204)*/
 }

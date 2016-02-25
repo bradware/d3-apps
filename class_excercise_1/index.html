@@ -17,22 +17,19 @@
 
     <!-- Styles -->
     <style>
+      a {
+        color: #0066CC; /* rgb(0, 102, 204) */
+      }
       .content {
         padding: 5%;
       }
       .chart {
-        background: aqua;
+        background: #E5E5E5;
       }
       .chart rect {
-        fill: steelblue;
+        fill: #0066CC; /* rgb(0, 102, 204)*/
       }
-      .chart text {
-        fill: white;
-        font: 10px sans-serif;
-        text-anchor: middle;
-      }
-      text .xText{
-        fill: black;
+      text {
         font: 10px sans-serif;
         text-anchor: middle;
       }
@@ -98,7 +95,7 @@
 
             .style("fill", function(d){
               if(d.value > 30){
-                return "#00CC33"; // Specifying a different color for the bar based on the value
+                return "#00CC66"; // Specifying a different color for the bar based on the value
 
               }
             });
@@ -109,6 +106,7 @@
             .attr("x", x.rangeBand() / 2)
             .attr("y", function(d) { return y(d.value) + 3; })
             .attr("dy", ".75em")
+            .style("fill", "white")
             .text(function(d) { return d.value; });
 
           //Adding x labels to our bars
@@ -117,6 +115,7 @@
             .attr("x", x.rangeBand() / 2)
             .attr("y", height - y_translate + 5)
             .attr("dy", ".75em")
+            .style("fill", "black")
             .text(function(d) { return d.state; });
 
         });
