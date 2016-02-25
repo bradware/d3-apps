@@ -32,6 +32,7 @@ function start() {
     var yAxis = d3.svg.axis().scale(yScale).orient('left');
 
     var refreshBars = function() {
+            console.log('in here');
             bars.selectAll('.bar')
                 .transition()
                     .delay(200)
@@ -85,14 +86,16 @@ function start() {
             refreshBars();
             
             var dept = deptInput.node().value;
+            console.log(dept);
             if (dept !== 'EVERY DEPT') {
+                console.log('in here');
                 filterBars(dept, function(d) {
                     return d.dept !== dept;
                 });
             }
             
             var minGPA = gpaInput.node().value;
-            filterBars(gpa, function(d) {
+            filterBars(minGPA, function(d) {
                 return d.gpa < minGPA;
             });
         });

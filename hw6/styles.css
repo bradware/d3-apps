@@ -3,17 +3,21 @@
 }
 #filter-button {
   background-color: #00CC66; /* rgb(0, 204, 102) */
-  color: #FFFFFF;
-  border: none;
-  width: 135px;
 }
 #dept-input {
   background-color: #0066CC; /* rgb(0, 102, 204)*/
-  color: #FFFFFF;
-  border: none;
-  width: 135px;
+  margin-left: 33%;
 }
 #gpa-input {
+  width: 135px;
+}
+.filters {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+.filter-theme {
+  color: #FFFFFF;
+  border: none;
   width: 135px;
 }
 .bar {
@@ -33,7 +37,10 @@
 .x.axis path {
   display: none;
 }
-.filters {
-  padding-top: 10px;
-  padding-bottom: 20px;
+
+/* For mobile friendly version of main pages */
+@media screen and (max-width: 767px) { 
+  #dept-input {
+  	margin-left: 0%;
+  }
 }
