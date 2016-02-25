@@ -4,13 +4,17 @@
 #filter-button {
   background-color: #00CC66; /* rgb(0, 204, 102) */
   color: #FFFFFF;
-  width: 75px;
+  border: none;
+  width: 135px;
 }
 #dept-input {
   background-color: #0066CC; /* rgb(0, 102, 204)*/
   color: #FFFFFF;
   border: none;
-  width: 75px;
+  width: 135px;
+}
+#gpa-input {
+  width: 135px;
 }
 .bar {
   fill: #0066CC; /* rgb(0, 102, 204) */
@@ -19,7 +23,7 @@
   fill: #00CC66; /* rgb(0, 204, 102) */
 }
 .axis {
-  font: 10px sans-serif;
+  font: 11px sans-serif;
 }
 .axis path, .axis line {
   fill: none;
@@ -32,8 +36,4 @@
 .filters {
   padding-top: 10px;
   padding-bottom: 20px;
-  display: inline !important;
-}
-.form-inline {
-	width: 400px;
 }
