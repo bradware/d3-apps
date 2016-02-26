@@ -1,11 +1,14 @@
+body {
+  border-top: 6px solid #333333; /* rgb(0, 102, 204) */
+}
 #back {
   color: #0066CC; /* rgb(0, 102, 204) */
 }
 #filter-button {
-  background-color: #00CC66; /* rgb(0, 204, 102) */
+  background-color: #0066CC; /* rgb(0, 102, 204) */
 }
 #dept-input {
-  background-color: #0066CC; /* rgb(0, 102, 204)*/
+  background-color: #00CC66; /* rgb(0, 204, 102) */ 
   margin-left: 33%;
 }
 #gpa-input {

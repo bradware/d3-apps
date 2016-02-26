@@ -1,3 +1,6 @@
+body {
+  border-top: 6px solid #333333; /* rgb(0, 102, 204) */
+}
 .bar {
   fill: #0066CC; /* rgb(0, 102, 204)*/
 }
