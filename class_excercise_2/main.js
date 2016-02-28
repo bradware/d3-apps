@@ -137,7 +137,7 @@
    **/
    function barClick() {
       d3.select(this)
-        .style("fill", "green")
+        .style("fill", "#00CC66")
         .transition()
           .duration(1000)
           .attr("y", function(d) { return y(d.frequency) * Math.random(); });
