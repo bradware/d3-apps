@@ -1,27 +1,10 @@
 body {
   border-top: 6px solid #333333; /* rgb(0, 102, 204) */
+  font: 12px sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 #back {
   color: #0066CC; /* rgb(0, 102, 204) */
-}
-#filter-button {
-  background-color: #0066CC; /* rgb(0, 102, 204) */
-}
-#dept-input {
-  background-color: #00CC66; /* rgb(0, 204, 102) */ 
-  margin-left: 33%;
-}
-#gpa-input {
-  width: 135px;
-}
-.filters {
-  padding-top: 10px;
-  padding-bottom: 20px;
-}
-.filter-theme {
-  color: #FFFFFF;
-  border: none;
-  width: 135px;
 }
 .bar {
   fill: #0066CC; /* rgb(0, 102, 204) */
@@ -40,10 +23,47 @@ body {
 .x.axis path {
   display: none;
 }
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+.dot {
+  stroke: none;
+}
+.tooltip {
+  background: #CECECE;
+  color: #333333;
+  border-radius: 5px;
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+  text-align: left;
+  opacity: .25;
+}
+.scatterplot {
+  float: left;
+}
+.nutrition-label {
+  float: left;
+  margin: 0px 0px 0px 50px;
+  width: 250px;
+  height: 375px;
+  background: #CECECE;
+  color: #333333;
+}
+.wrap {
+  width: 1050px;
+  margin: 0 auto 0;
+}
+table {
+  width: 85%;
+  margin: 0 auto 0;
+  text-align: left;
+}
 
 /* For mobile friendly version of main pages */
 @media screen and (max-width: 767px) { 
-  #dept-input {
-  	margin-left: 0%;
-  }
+  
 }
