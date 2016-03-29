@@ -90,6 +90,30 @@ function drawGraphs() {
         .style('opacity', 0.25);
   };
 
+  var wrap = function(text, width) {
+    text.each(function() {
+      var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          y = text.attr("y"),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", -10).attr("y", -3).attr("dy", dy + "em");
+      while (word = words.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text.append("tspan").attr("x", -10).attr("y", -5).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        }
+      }
+    });
+  };
+
   // reset the viz to start
   resetButton.on('click', function() { reset(); });
 
@@ -212,7 +236,9 @@ function drawGraphs() {
       bars.append('g')
           .attr('class', 'y axis')
           .attr('transform', 'translate(70, 0)')
-          .call(yBarAxis);
+          .call(yBarAxis)
+          .selectAll(".tick text")
+            .call(wrap, yBarScale.rangeBand());
 
       bars.append('g')
           .selectAll('.bar')
