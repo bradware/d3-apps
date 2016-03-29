@@ -6,6 +6,7 @@ body {
 }
 #reset-button {
   margin-top: 5px;
+  margin-bottom: 10px;
   background-color: #00CC66; /* rgb(0, 204, 102) */ 
   color: #FFFFFF;
 }
