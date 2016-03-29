@@ -1,85 +1,169 @@
-// self-invoking anonymous function, but doesn't use jQuery
-(window.onload = function() {
-  //##############    1    ####################
-    //Setting the size of our canvas
-    var width = 700; 
-    var height = 500; 
+// Your browser will call the onload() function when the document
+// has finished loading. In this case, onload() points to the
+// start() method we defined below. Because of something called
+// function hoisting, the start() method is callable below
+window.onload = start;
 
-    //Setting our x and y axes
-    //RangeRoundBands returns the band width. Decimal value is the padding
-    //Range provides the band height (because of the inverted values).
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
-    var y = d3.scale.linear().range([height, 0]);
+function start() {
+    // constant variables defined used throughout
+    var graph = document.getElementById('graph');
 
-    //Creating our chart and grabbing attributes from '.chart' in header
-    var barGraph = d3.select('#bar-graph')
-                        .attr('width', width)
-                        .attr('height', height);
+    var width = 700;
+    var height = 700;
 
+    var svg = d3.select(graph)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+    var bars = svg.append('g');
 
-    var map = {};
-    d3.csv('data/cereal.csv', function(d) {
-      if (d.Manufacturer in map) {
-        var newCals = map[d.Manufacturer].totalCals + (+d.Calories);
-        var newCount = map[d.Manufacturer].count + 1;
-        var newAvg = Math.round(newCals / newCount);
-        map[d.Manufacturer] = {manu: d.Manufacturer, totalCals: newCals, count: newCount, avgCals: newAvg};
-      } 
-      else {
-        map[d.Manufacturer] = {manu: d.Manufacturer, totalCals: +d.Calories, count: 1, avgCals: +d.Calories};
-      }
-    }, 
-    function(error, data) {
-      if (error) throw error;
-      data = new Array();
-      for (var prop in map) { data.push(map[prop]); }
-      // log data to console for inspection
-      console.log(data);
+    // filter DOM items
+    var button = document.getElementById('filter-button');
+    var selectInput = document.getElementById('dept-input');
+    var textInput = document.getElementById('gpa-input');
+    
+    var d3FilterButton = d3.select('#filter-button');
+    var gpaInput = d3.select('#gpa-input');
+    var deptInput = d3.select('#dept-input');
 
-      //Set our scale domains
-      //data.map creates a new array with the result of a function of every element in the array
-      x.domain(data.map(function(d) { return d.manu; }));
-      y.domain([0, d3.max(data, function(d) { return d.avgCals; })]);
+    // scales and y-axis for graph
+    var xScale = d3.scale.linear().range([0, width]);
+    var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 0.3);
+    var yAxis = d3.svg.axis().scale(yScale).orient('left');
 
-      var y_translate = 50;
-      /* Talk about this later */
+    var refreshBars = function() {
+            bars.selectAll('.bar')
+                .transition()
+                    .delay(200)
+                    .duration(1000)
+                    .style('fill', '#0066CC')
+                    .attr('width', function(d) {
+                        return xScale(d.gpa);
+                    });
+        };
 
-      //##############    3    ####################
-      //Grabbing data and binding it to the bars
-      //'G' groups all the svg elements together
-      var bar = barGraph.selectAll('g')
-                        .data(data)
-                        .enter()
-                        .append('g')
-                        .attr('transform', function(d) { return 'translate('+ x(d.manu) +',0)'; });
-      // Translate arranges all the 'g' elements on the X axis.
-      // Without the translate, all the groups would be drawn at the same position
+    var filterBars = function(filterVal, filterFunc) {
+        bars.selectAll('.bar')
+            .filter(filterFunc)
+            .transition()
+                .delay(200)
+                .duration(1000)
+                .style('fill', 'red')
+                .attr('width', function(d) {
+                    return xScale(0);
+                });
+    }; 
 
-      //##############    4    ####################
-      //Generating rectangle SVG elements for our data
-      bar.append('rect')
-            .attr('y', function(d) { return y(d.avgCals); }) // Setting the Y position of individual bars based on the data
-            .attr('height', function(d) { return height - y_translate - y(d.avgCals); }) // At the chosen Y position, we're now specifying height.
-            .attr('width', x.rangeBand())
+    var validateDeptInput = function() {
+        return deptInput.node().value !== 'CHOOSE DEPT';
+    };
 
-      //##############    5    ####################
-      //Adding y labels to our bars
-      bar.append('text')
-            .attr('x', x.rangeBand() / 2.5)
-            .attr('y', function(d) { return y(d.avgCals) + 3; })
-            .attr('dy', '.75em')
-            .style('fill', 'white')
-            .text(function(d) { return d.avgCals; });
+    var validateGpaInput = function() {
+        var num = Number(gpaInput.node().value);
+        if (gpaInput.node().value === '' || isNaN(num) || num < 0 || num > 4) {
+            d3.select('.form-group').classed('has-success', false);
+            d3.select('.form-group').classed('has-error', true);
+            return false;
+        }
+        else {
+            d3.select('.form-group').classed('has-error', false);
+            d3.select('.form-group').classed('has-success', true);
+            return true;
+        }
+    };
 
-      //Adding x labels to our bars
-      bar.append('text')
-            .attr('class', 'xText')
-            .attr('x', x.rangeBand() / 5)
-            .attr('y', height - y_translate + 5)
-            .attr('dy', '.75em')
-            .style('fill', 'black')
-            .text(function(d) { return d.manu; });
+    var validateInput = function() {
+        if (validateGpaInput() && validateDeptInput()) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    }; 
+
+    selectInput.addEventListener('change', validateInput);
+    textInput.addEventListener('change', validateInput);
+    
+    d3FilterButton
+        .on('click', function() {
+            console.log('FILTER BUTTON CLICKED');
+            refreshBars();
+            
+            var dept = deptInput.node().value;
+            console.log('FILTER DEPT: ' + dept);
+            if (dept !== 'EVERY DEPT') {
+                filterBars(dept, function(d) {
+                    return d.dept !== dept;
+                });
+            }
+            
+            var minGPA = gpaInput.node().value;
+            console.log('FILTER MIN GPA: ' + minGPA);
+            filterBars(minGPA, function(d) {
+                return d.gpa < minGPA;
+            });
+        });
+
+    d3.csv('data/Courses.csv', function(d) {
+        d.dept = d.Department;
+        d.num = d['Course Number'];
+        d.gpa = +d.GPA;
+        if (d.gpa < 0) {
+            d.gpa = 0;
+        }
+        return d;
+    }, function(error, data) {
+        // We now have the "massaged" CSV data in the 'data' variable.
+        console.log(data);
+        // We set the domain of the xScale. The domain includes 0 up to
+        // the maximum frequency in the dataset. This is because 
+        xScale.domain([0, d3.max(data, function(d) {
+            return d.gpa;
+        })]);
+
+        // We set the domain of the yScale. The scale is ordinal, and
+        // contains every letter in the alphabet (the letter attribute
+        // in our data array). We can use the map function to iterate
+        // through each value in our data array, and make a new array
+        // that contains just letters.
+        yScale.domain(data.map(function(d) {
+            return d.dept + ' ' + d.num;
+        }));
+
+        // Append the y-axis to the graph. the translate(20, 0) stuff
+        // shifts the axis 20 pixels from the left. This just helps us
+        // position stuff to where we want it to be.
+        bars.append('g')
+            .attr('class', 'y axis')
+            .attr('transform', 'translate(70, 0)')
+            // Call is a special method that lets us invoke a function
+            // (called 'yAxis' in this case) which creates the actual
+            // yAxis using D3.
+            .call(yAxis);
+
+        // Create the bars in the graph. First, select all '.bars' that
+        // currently exist, then load the data into them. enter() selects
+        // all the pieces of data and lets us operate on them.
+        bars.append('g')
+            .selectAll('.bar')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('class', 'bar')
+            .attr('x', 80)
+            .attr('y', function(d) {
+                return yScale(d.dept + ' ' + d.num);
+            })
+            .attr('width', function(d) {
+                // xScale will map any number and return a number
+                // within the output range we specified earlier.
+                return xScale(d.gpa);
+            })
+            .attr('height', function(d) {
+                // Remember how we set the yScale to be an ordinal scale
+                // with bands from 0 to height? And then we set the domain 
+                // to contain all the letters in the alphabet? 
+                return yScale.rangeBand();
+            });
 
     });
-
-})();
+}

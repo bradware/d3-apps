@@ -1,40 +1,41 @@
 body {
-  border-top: 6px solid #333333; /* rgb(0, 102, 204) */
-  font: 12px sans-serif;
+  font: 11px sans-serif;
+  font-weight: 400;
+  background: #202020;
+  color: #ff0000;
   font-family: 'Montserrat', sans-serif;
 }
-#back {
-  color: #0066CC; /* rgb(0, 102, 204) */
+
+h1 {
+  font-weight: 300;
+  color: #ffffff;
+  font-size: 18px;
+  margin: 25px 0px 25px 0px;
+  padding: 0;
+  text-transform: uppercase;
+  font-weight: 700;
 }
-.bar {
-  fill: #0066CC; /* rgb(0, 102, 204) */
+
+h2 {
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
-.bar:hover {
-  fill: #00CC66; /* rgb(0, 204, 102) */
-}
-.axis {
-  font: 11px sans-serif;
-}
-.axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-.x.axis path {
-  display: none;
-}
+
 .axis path,
 .axis line {
   fill: none;
   stroke: #fff;
   shape-rendering: crispEdges;
 }
+
 .dot {
   stroke: none;
 }
+
 .tooltip {
-  background: #CECECE;
-  color: #333333;
+  background: #fff;
+  color: #202020;
   border-radius: 5px;
   position: absolute;
   padding: 10px;
@@ -42,28 +43,11 @@ body {
   text-align: left;
   opacity: .25;
 }
+
 .scatterplot {
   float: left;
-}
-.nutrition-label {
-  float: left;
-  margin: 0px 0px 0px 50px;
-  width: 250px;
-  height: 375px;
-  background: #CECECE;
-  color: #333333;
 }
 .wrap {
   width: 1050px;
   margin: 0 auto 0;
-}
-table {
-  width: 85%;
-  margin: 0 auto 0;
-  text-align: left;
-}
-
-/* For mobile friendly version of main pages */
-@media screen and (max-width: 767px) { 
-  
 }
