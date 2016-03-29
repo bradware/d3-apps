@@ -220,7 +220,7 @@ function drawGraphs() {
           .enter()
           .append('rect')
               .attr('class', 'bar')
-              .attr('x', 80)
+              .attr('x', 75)
               .attr('y', function(d) { return yBarScale(d.manu); })
               .attr('width', function(d) { return xBarScale(d.avgCals); })
               .attr('height', function(d) { return yBarScale.rangeBand(); })

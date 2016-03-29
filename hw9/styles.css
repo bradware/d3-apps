@@ -9,6 +9,10 @@ body {
   background-color: #00CC66; /* rgb(0, 204, 102) */ 
   color: #FFFFFF;
 }
+.graph {
+  padding-left: 15px;
+  padding-right: 0px;
+}
 .axis path,
 .axis line {
   fill: none;
