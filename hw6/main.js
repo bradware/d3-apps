@@ -23,8 +23,8 @@ function start() {
     var textInput = document.getElementById('gpa-input');
     
     var filterButton = d3.select('#filter-button');
-    var gpaInput = d3.select('#gpa-input');
     var deptInput = d3.select('#dept-input');
+    var gpaInput = d3.select('#gpa-input');
 
     // scales and y-axis for graph
     var xScale = d3.scale.linear().range([0, width]);
