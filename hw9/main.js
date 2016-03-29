@@ -4,7 +4,7 @@ function drawGraphs() {
   // tons of constant variables used throughout
   // scatter-plot vars
   var scatMargin = {top: 50, right: 0, bottom: 30, left: 0};
-  var scatWidth = 625 - scatMargin.left - scatMargin.right;
+  var scatWidth = 600 - scatMargin.left - scatMargin.right;
   var scatHeight = 550 - scatMargin.top - scatMargin.bottom;
 
   // setup scatter-plot x
@@ -38,7 +38,7 @@ function drawGraphs() {
 
   // bar-graph vars
   var barGraph = document.getElementById('bar-graph');
-  var barWidth = 625;
+  var barWidth = 600;
   var barHeight = 550;
   var barXAxisOffset = 75;
   var barYAxisOffset = 25;
