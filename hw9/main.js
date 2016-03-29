@@ -40,6 +40,9 @@ function drawGraphs() {
   var barGraph = document.getElementById('bar-graph');
   var barWidth = 625;
   var barHeight = 550;
+  var barXAxisOffset = 75;
+  var barYAxisOffset = 25;
+
   var barSvg = d3.select(barGraph)
                   .append('svg')
                   .attr('width', barWidth)
@@ -47,8 +50,8 @@ function drawGraphs() {
   var bars = barSvg.append('g');
 
   // bar-graph scale and y-axis
-  var xBarScale = d3.scale.linear().range([0, barWidth]);
-  var yBarScale = d3.scale.ordinal().rangeRoundBands([0, barHeight], 0.3);
+  var xBarScale = d3.scale.linear().range([0, barWidth - barXAxisOffset]);
+  var yBarScale = d3.scale.ordinal().rangeRoundBands([0, barHeight - barYAxisOffset], 0.3);
   var yBarAxis = d3.svg.axis().scale(yBarScale).orient('left');
 
   var resetButton = d3.select('#reset-button');
@@ -100,7 +103,7 @@ function drawGraphs() {
           lineHeight = 1.1, // ems
           y = text.attr("y"),
           dy = parseFloat(text.attr("dy")),
-          tspan = text.text(null).append("tspan").attr("x", -10).attr("y", -3).attr("dy", dy + "em");
+          tspan = text.text(null).append("tspan").attr("x", -10).attr("y", -7).attr("dy", dy + "em");
       while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
