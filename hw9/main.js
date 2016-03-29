@@ -111,7 +111,7 @@ function drawGraphs() {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", -10).attr("y", -5).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          tspan = text.append("tspan").attr("x", -10).attr("y", -7).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
         }
       }
     });
