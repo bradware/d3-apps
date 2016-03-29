@@ -61,21 +61,24 @@ function drawGraphs() {
     return circleScale(d.servSizeWeight);
   }
 
-  var reset = function() {
+  var resetBars = function() {
     barSvg.selectAll('.bar')
       .transition()
         .delay(200)
         .duration(2000)
         .style('fill', '#0066CC');
+  };
 
+  var resetDots = function() {
     scatSvg.selectAll('.dot')
       .transition()
-        .delay(200)
-        .duration(2000)
+        .delay(100)
+        .duration(1000)
         .style('opacity', 1);
   };
 
   var filterBars = function(filterVal, filterFunc) {
+    resetBars();
     barSvg.selectAll('.bar')
       .filter(filterFunc)
       .transition()
@@ -85,11 +88,12 @@ function drawGraphs() {
   };
 
   var filterDots = function(filterVal, filterFunc) {
+    resetDots();
     scatSvg.selectAll('.dot')
       .filter(filterFunc)
       .transition()
-        .delay(200)
-        .duration(2000)
+        .delay(100)
+        .duration(1000)
         .style('opacity', 0.25);
   };
 
@@ -118,7 +122,10 @@ function drawGraphs() {
   };
 
   // reset the viz to start
-  resetButton.on('click', function() { reset(); });
+  resetButton.on('click', function() { 
+    resetBars(); 
+    resetDots(); 
+  });
 
   // load data for scatter-plot
   d3.csv('data/cereal.csv', function(error, scatData) {
