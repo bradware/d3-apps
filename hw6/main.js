@@ -22,7 +22,7 @@ function start() {
     var selectInput = document.getElementById('dept-input');
     var textInput = document.getElementById('gpa-input');
     
-    var d3FilterButton = d3.select('#filter-button');
+    var filterButton = d3.select('#filter-button');
     var gpaInput = d3.select('#gpa-input');
     var deptInput = d3.select('#dept-input');
 
@@ -83,25 +83,24 @@ function start() {
     selectInput.addEventListener('change', validateInput);
     textInput.addEventListener('change', validateInput);
     
-    d3FilterButton
-        .on('click', function() {
-            console.log('FILTER BUTTON CLICKED');
-            refreshBars();
-            
-            var dept = deptInput.node().value;
-            console.log('FILTER DEPT: ' + dept);
-            if (dept !== 'EVERY DEPT') {
-                filterBars(dept, function(d) {
-                    return d.dept !== dept;
-                });
-            }
-            
-            var minGPA = gpaInput.node().value;
-            console.log('FILTER MIN GPA: ' + minGPA);
-            filterBars(minGPA, function(d) {
-                return d.gpa < minGPA;
+    filterButton.on('click', function() {
+        console.log('FILTER BUTTON CLICKED');
+        refreshBars();
+        
+        var dept = deptInput.node().value;
+        console.log('FILTER DEPT: ' + dept);
+        if (dept !== 'EVERY DEPT') {
+            filterBars(dept, function(d) {
+                return d.dept !== dept;
             });
+        }
+        
+        var minGPA = gpaInput.node().value;
+        console.log('FILTER MIN GPA: ' + minGPA);
+        filterBars(minGPA, function(d) {
+            return d.gpa < minGPA;
         });
+    });
 
     d3.csv('data/Courses.csv', function(d) {
         d.dept = d.Department;

@@ -1,53 +1,30 @@
 body {
-  font: 11px sans-serif;
-  font-weight: 400;
-  background: #202020;
-  color: #ff0000;
-  font-family: 'Montserrat', sans-serif;
+  border-top: 6px solid #333333; /* rgb(0, 102, 204) */
 }
-
-h1 {
-  font-weight: 300;
-  color: #ffffff;
-  font-size: 18px;
-  margin: 25px 0px 25px 0px;
-  padding: 0;
-  text-transform: uppercase;
-  font-weight: 700;
+#back {
+  color: #0066CC; /* rgb(0, 102, 204) */
 }
-
-h2 {
-  font-weight: 400;
-  font-size: 14px;
-  margin-bottom: 20px;
+#reset-button {
+  margin-top: 20px;
+  background-color: #00CC66; /* rgb(0, 204, 102) */ 
+  color: #FFFFFF;
 }
-
 .axis path,
 .axis line {
   fill: none;
-  stroke: #fff;
+  stroke: #000000;
   shape-rendering: crispEdges;
 }
-
 .dot {
   stroke: none;
 }
-
 .tooltip {
-  background: #fff;
-  color: #202020;
+  background: #E3E3E3;
   border-radius: 5px;
   position: absolute;
+  margin-top: 40px;
   padding: 10px;
   pointer-events: none;
   text-align: left;
   opacity: .25;
-}
-
-.scatterplot {
-  float: left;
-}
-.wrap {
-  width: 1050px;
-  margin: 0 auto 0;
 }

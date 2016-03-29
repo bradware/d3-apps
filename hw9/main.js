@@ -1,39 +1,28 @@
-// Your browser will call the onload() function when the document
-// has finished loading. In this case, onload() points to the
-// start() method we defined below. Because of something called
-// function hoisting, the start() method is callable below
 window.onload = drawGraphs;
 
-var globalScatData = new Array();
-var globalBarData = new Array();
-
 function drawGraphs() {
+  // tons of constant variables used throughout
+  // scatter-plot vars
   var scatMargin = {top: 50, right: 0, bottom: 30, left: 0};
-  var scatWidth = 600 - scatMargin.left - scatMargin.right;
-  var scatHeight = 600 - scatMargin.top - scatMargin.bottom;
-  var circleScale = d3.scale.linear().range([0, 6]);
+  var scatWidth = 625 - scatMargin.left - scatMargin.right;
+  var scatHeight = 550 - scatMargin.top - scatMargin.bottom;
 
-  // pre-cursors
-  var sizeForCircle = function(d) {
-    // TODO: modify the size
-    return circleScale(d.servSizeWeight);
-  }
-
-  // setup x
+  // setup scatter-plot x
   var xScatValue = function(d) { return d.calories;}, // scatData -> value
       xScatScale = d3.scale.linear().range([0, scatWidth]), // value -> display
       xScatMap = function(d) { return xScatScale(xScatValue(d));}, // scatData -> display
       xScatAxis = d3.svg.axis().scale(xScatScale).orient('bottom');
 
-  // setup y
-  var yScatValue = function(d) { return d.sugars; }, // scatData -> value
-      yScatScale = d3.scale.linear().range([scatHeight, 0]), // value -> display
-      yScatMap = function(d) { return yScatScale(yScatValue(d)); }, // scatData -> display
-      yScatAxis = d3.svg.axis().scale(yScatScale).orient('left');
+  // setup scatter-plot y
+  var yScatValue = function(d) { return d.sugars; }; 
+  var yScatScale = d3.scale.linear().range([scatHeight, 0]); 
+  var yScatMap = function(d) { return yScatScale(yScatValue(d)); }; 
+  var yScatAxis = d3.svg.axis().scale(yScatScale).orient('left');
 
-  // setup fill color
-  var cValue = function(d) { return d.Manufacturer;},
-      color = d3.scale.category10();
+  // setup fill color and circle size
+  var circleScale = d3.scale.linear().range([0, 6]);
+  var cValue = function(d) { return d.Manufacturer; };
+  var color = d3.scale.category10();
 
   // add the graph canvas to the body of the webpage
   var scatSvg = d3.select('#scatter-plot').append('svg')
@@ -47,99 +36,133 @@ function drawGraphs() {
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
-  // load data
+  // bar-graph vars
+  var barGraph = document.getElementById('bar-graph');
+  var barWidth = 625;
+  var barHeight = 550;
+  var barSvg = d3.select(barGraph)
+                  .append('svg')
+                  .attr('width', barWidth)
+                  .attr('height', barHeight);
+  var bars = barSvg.append('g');
+
+  // bar-graph scale and y-axis
+  var xBarScale = d3.scale.linear().range([0, barWidth]);
+  var yBarScale = d3.scale.ordinal().rangeRoundBands([0, barHeight], 0.3);
+  var yBarAxis = d3.svg.axis().scale(yBarScale).orient('left');
+
+  var resetButton = d3.select('#reset-button');
+
+  // Functions for event handlers
+  var sizeForCircles = function(d) {
+    return circleScale(d.servSizeWeight);
+  }
+
+  var reset = function() {
+    barSvg.selectAll('.bar')
+      .transition()
+        .delay(200)
+        .duration(2000)
+        .style('fill', '#0066CC');
+
+    scatSvg.selectAll('.dot')
+      .transition()
+        .delay(200)
+        .duration(2000)
+        .style('opacity', 1);
+  };
+
+  var filterBars = function(filterVal, filterFunc) {
+    barSvg.selectAll('.bar')
+      .filter(filterFunc)
+      .transition()
+        .delay(200)
+        .duration(2000)
+        .style('fill', '#00CC66');
+  };
+
+  var filterDots = function(filterVal, filterFunc) {
+    scatSvg.selectAll('.dot')
+      .filter(filterFunc)
+      .transition()
+        .delay(200)
+        .duration(2000)
+        .style('opacity', 0.25);
+  };
+
+  // reset the viz to start
+  resetButton.on('click', function() { reset(); });
+
+  // load data for scatter-plot
   d3.csv('data/cereal.csv', function(error, scatData) {
 
-    // change string (from CSV) into number format
+    // change string into number format
     scatData.forEach(function(d) {
       d.calories = +d.Calories;
       d.sugars = +d.Sugars;
       d.servSizeWeight = +d['Serving Size Weight'];
     });
-
+    // inspect data
     console.log(scatData);
-    globalScatData = scatData;
 
     // don't want dots overlapping axis, so add in buffer to scatData domain
     xScatScale.domain([d3.min(scatData, xScatValue)-1, d3.max(scatData, xScatValue)+1]);
     yScatScale.domain([d3.min(scatData, yScatValue)-1, d3.max(scatData, yScatValue)+1]);
 
-    // x-axis
+    // x-axis for scatter-plot
     scatSvg.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0,' + scatHeight + ')')
-        .attr('fill', 'white')
+        .attr('fill', '#333333')
         .call(xScatAxis)
       .append('text')
         .attr('class', 'label')
         .attr('x', scatWidth)
         .attr('y', -6)
-        .attr('fill', 'white')
+        .attr('fill', '#333333')
         .style('text-anchor', 'end')
         .text('Calories');
 
-    // y-axis
+    // y-axis for scatter-plot
     scatSvg.append('g')
         .attr('class', 'y axis')
-        .attr('fill', 'white')
+        .attr('fill', '#333333')
         .call(yScatAxis)
       .append('text')
         .attr('class', 'label')
         .attr('transform', 'rotate(-90)')
         .attr('y', 6)
         .attr('dy', '.71em')
-        .attr('fill', 'white')
+        .attr('fill', '#333333')
         .style('text-anchor', 'end')
         .text('Sugars');
 
-    // draw dots
+    // draw dots for scatter-plot
     scatSvg.selectAll('.dot')
         .data(scatData)
         .enter().append('circle')
           .attr('class', 'dot')
-          .attr('r', sizeForCircle)
+          .attr('r', sizeForCircles)
           .attr('cx', xScatMap)
           .attr('cy', yScatMap)
           .style('fill', function(d) { return color(cValue(d));})
           .on('mouseover', function(d) {
-              // TODO: show the tool tip
-              tooltip.style('opacity', 1);
-              // TODO: fill to the tool tip with the appropriate scatData
-              tooltip.html('Cereal Name: ' + d['Cereal Name'] + '<br>' + 
+            tooltip.html('Cereal Name: ' + d['Cereal Name'] + '<br>' + 
                            'Calories: ' + d.calories + '<br>' + 
                            'Sugars: ' + d.sugars);
-              // TODO: update text in our custom nutrition label
-
-              // TODO: expand all nodes with the same manufacturer
-
+            tooltip.style('opacity', 1);
           })
           .on('mouseout', function(d) {
-              // TODO: hide the tooltip
               tooltip.style('opacity', 0);
-              // TODO: resize the nodes
-
           })
           .on('click', function(d) {
               var currCals = d.calories;
-              var matchingData = new Array();
-              console.log(currCals);
-              globalBarData.forEach(function(d) {
-                if (d.avgCals > currCals) {
-                  matchingData.push(d);
-                }
+              filterBars(currCals, function(d) {
+                  return d.avgCals > currCals;
               });
-              console.log(matchingData);
-              barSvg.selectAll('.bar')
-                  .data(matchingData)
-                  .transition()
-                    .delay(200)
-                    .duration(1000)
-                    .attr('fill', 'green');
-
-                
           });
 
-    // draw legend
+    // draw legend for scatter-plot
     var legend = scatSvg.selectAll('.legend')
         .data(color.domain())
         .enter()
@@ -150,6 +173,7 @@ function drawGraphs() {
     // draw legend colored rectangles
     legend.append('rect')
         .attr('x', scatWidth - 18)
+        .attr('y', 267)
         .attr('width', 18)
         .attr('height', 18)
         .style('fill', color);
@@ -157,52 +181,12 @@ function drawGraphs() {
     // draw legend text
     legend.append('text')
         .attr('x', scatWidth - 24)
-        .attr('y', 9)
+        .attr('y', 275)
         .attr('dy', '.35em')
-        .attr('fill', 'white')
+        .attr('fill', '#333333')
         .style('text-anchor', 'end')
         .text(function(d) { return d;});
   });
-
-  // constant variables defined used throughout
-  var barGraph = document.getElementById('bar-graph');
-
-  var barWidth = 700;
-  var barHeight = 700;
-
-  var barSvg = d3.select(barGraph)
-      .append('svg')
-      .attr('width', barWidth)
-      .attr('height', barHeight);
-  var bars = barSvg.append('g');
-
-  // scales and y-axis for graph
-  var xBarScale = d3.scale.linear().range([0, barWidth]);
-  var yBarScale = d3.scale.ordinal().rangeRoundBands([0, barHeight], 0.3);
-  var yBarAxis = d3.svg.axis().scale(yBarScale).orient('left');
-
-  var refreshBars = function() {
-          bars.selectAll('.bar')
-              .transition()
-                  .delay(200)
-                  .duration(1000)
-                  .style('fill', '#0066CC')
-                  .attr('width', function(d) {
-                      return xBarScale(d.avgCals);
-                  });
-      };
-
-  var filterBars = function(filterVal, filterFunc) {
-      bars.selectAll('.bar')
-          .filter(filterFunc)
-          .transition()
-              .delay(200)
-              .duration(1000)
-              .style('fill', 'red')
-              .attr('width', function(d) {
-                  return xBarScale(0);
-              });
-  }; 
 
   var map = {};
   d3.csv('data/cereal.csv', function(d) {
@@ -221,36 +205,15 @@ function drawGraphs() {
       for (var prop in map) { barData.push(map[prop]); }
       // log barData to console for inspection
       console.log(barData);
-      globalBarData = barData;
-      // We set the domain of the xScale. The domain includes 0 up to
-      // the maximum frequency in the barDataset. This is because 
-      xBarScale.domain([0, d3.max(barData, function(d) {
-          return d.avgCals;
-      })]);
+      
+      xBarScale.domain([0, d3.max(barData, function(d) { return d.avgCals; })]);
+      yBarScale.domain(barData.map(function(d) { return d.manu; }));
 
-      // We set the domain of the yScale. The scale is ordinal, and
-      // contains every letter in the alphabet (the letter attribute
-      // in our barData array). We can use the map function to iterate
-      // through each value in our barData array, and make a new array
-      // that contains just letters.
-      yBarScale.domain(barData.map(function(d) {
-          return d.manu;
-      }));
-
-      // Append the y-axis to the graph. the translate(20, 0) stuff
-      // shifts the axis 20 pixels from the left. This just helps us
-      // position stuff to where we want it to be.
       bars.append('g')
           .attr('class', 'y axis')
           .attr('transform', 'translate(70, 0)')
-          // Call is a special method that lets us invoke a function
-          // (called 'yAxis' in this case) which creates the actual
-          // yAxis using D3.
           .call(yBarAxis);
 
-      // Create the bars in the graph. First, select all '.bars' that
-      // currently exist, then load the barData into them. enter() selects
-      // all the pieces of barData and lets us operate on them.
       bars.append('g')
           .selectAll('.bar')
           .data(barData)
@@ -258,37 +221,15 @@ function drawGraphs() {
           .append('rect')
               .attr('class', 'bar')
               .attr('x', 80)
-              .attr('y', function(d) {
-                  return yBarScale(d.manu);
-              })
-              .attr('width', function(d) {
-                  // xScale will map any number and return a number
-                  // within the output range we specified earlier.
-                  return xBarScale(d.avgCals);
-              })
-              .attr('height', function(d) {
-                  // Remember how we set the yScale to be an ordinal scale
-                  // with bands from 0 to height? And then we set the domain 
-                  // to contain all the letters in the alphabet? 
-                  return yBarScale.rangeBand();
-              })
+              .attr('y', function(d) { return yBarScale(d.manu); })
+              .attr('width', function(d) { return xBarScale(d.avgCals); })
+              .attr('height', function(d) { return yBarScale.rangeBand(); })
+              .style('fill', '#0066CC')
               .on('click', function(d) {
                   currManu = d.manu;
-                  var matchingData = new Array();
-                  console.log(currManu);
-                  globalScatData.forEach(function(d) {
-                    if (d.Manufacturer !== currManu) {
-                      console.log('in here');
-                      matchingData.push(d);
-                    }
+                  filterDots(currManu, function(d) {
+                    return currManu !== d.Manufacturer;
                   });
-                  console.log(matchingData);
-                  scatSvg.selectAll('.dot')
-                          .data(matchingData)
-                          .transition()
-                            .delay(200)
-                            .duration(1000)
-                            .style('opacity', 0.25);
               });
 
   });
