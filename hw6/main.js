@@ -9,7 +9,8 @@ function start() {
     var graph = document.getElementById('graph');
 
     var width = 700;
-    var height = 700;
+    var height = 780;
+    var barXAxisOffset = 80;
 
     var svg = d3.select(graph)
         .append('svg')
@@ -27,7 +28,7 @@ function start() {
     var gpaInput = d3.select('#gpa-input');
 
     // scales and y-axis for graph
-    var xScale = d3.scale.linear().range([0, width]);
+    var xScale = d3.scale.linear().range([0, width - barXAxisOffset]);
     var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 0.3);
     var yAxis = d3.svg.axis().scale(yScale).orient('left');
 
