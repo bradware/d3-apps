@@ -8,9 +8,10 @@ function start() {
     // constant variables defined used throughout
     var graph = document.getElementById('graph');
 
-    var width = 700;
+    var width = 780;
     var height = 780;
     var barXAxisOffset = 80;
+    var barYAxisOffset = 50;
 
     var svg = d3.select(graph)
         .append('svg')
@@ -29,8 +30,9 @@ function start() {
 
     // scales and y-axis for graph
     var xScale = d3.scale.linear().range([0, width - barXAxisOffset]);
-    var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 0.3);
+    var yScale = d3.scale.ordinal().rangeRoundBands([0, height - barYAxisOffset], 0.3);
     var yAxis = d3.svg.axis().scale(yScale).orient('left');
+    var xAxis = d3.svg.axis().scale(xScale).orient('top');
 
     var refreshBars = function() {
             bars.selectAll('.bar')
@@ -116,9 +118,7 @@ function start() {
         console.log(data);
         // We set the domain of the xScale. The domain includes 0 up to
         // the maximum frequency in the dataset. This is because 
-        xScale.domain([0, d3.max(data, function(d) {
-            return d.gpa;
-        })]);
+        xScale.domain([0, 4]);
 
         // We set the domain of the yScale. The scale is ordinal, and
         // contains every letter in the alphabet (the letter attribute
@@ -140,6 +140,17 @@ function start() {
             // yAxis using D3.
             .call(yAxis);
 
+        // Append the y-axis to the graph. the translate(20, 0) stuff
+        // shifts the axis 20 pixels from the left. This just helps us
+        // position stuff to where we want it to be.
+        bars.append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(70, 17)')
+            // Call is a special method that lets us invoke a function
+            // (called 'yAxis' in this case) which creates the actual
+            // yAxis using D3.
+            .call(xAxis);
+
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
         // all the pieces of data and lets us operate on them.
@@ -149,7 +160,7 @@ function start() {
             .enter()
             .append('rect')
             .attr('class', 'bar')
-            .attr('x', 80)
+            .attr('x', barXAxisOffset)
             .attr('y', function(d) {
                 return yScale(d.dept + ' ' + d.num);
             })

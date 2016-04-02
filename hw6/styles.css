@@ -37,9 +37,7 @@ body {
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.x.axis path {
-  display: none;
-}
+
 
 /* For mobile friendly version of main pages */
 @media screen and (max-width: 767px) { 
