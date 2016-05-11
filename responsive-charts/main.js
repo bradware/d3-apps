@@ -136,8 +136,6 @@ function drawGraphs() {
       d.sugars = +d.Sugars;
       d.servSizeWeight = +d['Serving Size Weight'];
     });
-    // inspect data
-    console.log(scatData);
 
     // don't want dots overlapping axis, so add in buffer to scatData domain
     xScatScale.domain([d3.min(scatData, xScatValue)-1, d3.max(scatData, xScatValue)+1]);
@@ -235,38 +233,34 @@ function drawGraphs() {
       }
   }, 
   function(error, barData) {
-      if (error) throw error;
-      for (var prop in map) { barData.push(map[prop]); }
-      // log barData to console for inspection
-      console.log(barData);
-      
-      xBarScale.domain([0, d3.max(barData, function(d) { return d.avgCals; })]);
-      yBarScale.domain(barData.map(function(d) { return d.manu; }));
+    if (error) throw error;
+    for (var prop in map) { barData.push(map[prop]); }
+    xBarScale.domain([0, d3.max(barData, function(d) { return d.avgCals; })]);
+    yBarScale.domain(barData.map(function(d) { return d.manu; }));
 
-      bars.append('g')
-          .attr('class', 'y axis')
-          .attr('transform', 'translate(70, 0)')
-          .call(yBarAxis)
-          .selectAll(".tick text")
-            .call(wrap, yBarScale.rangeBand());
+    bars.append('g')
+        .attr('class', 'y axis')
+        .attr('transform', 'translate(70, 0)')
+        .call(yBarAxis)
+        .selectAll(".tick text")
+          .call(wrap, yBarScale.rangeBand());
 
-      bars.append('g')
-          .selectAll('.bar')
-          .data(barData)
-          .enter()
-          .append('rect')
-              .attr('class', 'bar')
-              .attr('x', 75)
-              .attr('y', function(d) { return yBarScale(d.manu); })
-              .attr('width', function(d) { return xBarScale(d.avgCals); })
-              .attr('height', function(d) { return yBarScale.rangeBand(); })
-              .style('fill', '#0066CC')
-              .on('click', function(d) {
-                  currManu = d.manu;
-                  filterDots(currManu, function(d) {
-                    return currManu !== d.Manufacturer;
-                  });
-              });
-
+    bars.append('g')
+        .selectAll('.bar')
+        .data(barData)
+        .enter()
+        .append('rect')
+            .attr('class', 'bar')
+            .attr('x', 75)
+            .attr('y', function(d) { return yBarScale(d.manu); })
+            .attr('width', function(d) { return xBarScale(d.avgCals); })
+            .attr('height', function(d) { return yBarScale.rangeBand(); })
+            .style('fill', '#0066CC')
+            .on('click', function(d) {
+                currManu = d.manu;
+                filterDots(currManu, function(d) {
+                  return currManu !== d.Manufacturer;
+                });
+            });
   });
 }

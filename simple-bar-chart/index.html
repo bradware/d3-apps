@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Class Excercise | Brad Ware</title>
+    <title>Simple Bar Chart | D3 Apps</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,10 +10,10 @@
     <meta name="author" content="Brad Ware">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.min.css">
 
     <!-- JS -->
-    <script type="text/javascript" src="../assets/d3/d3.min.js"></script>
+    <script type="text/javascript" src="/assets/d3/d3.min.js"></script>
 
     <!-- Styles -->
     <style>
@@ -30,7 +30,7 @@
         background: #E5E5E5;
       }
       .chart rect {
-        fill: #0066CC; /* rgb(0, 102, 204)*/
+        fill: #0066CC; /* rgb(0, 102, 204) */
       }
       text {
         font: 10px sans-serif;
@@ -42,7 +42,7 @@
   <body class="container-fluid">
     <h4><a href="/">← Back</a></h4>
     <div class="content text-center">
-      <h1>Class Excercise 1</h1>
+      <h1>Simple Bar Chart</h1>
       <svg class="chart"></svg>
       <script type="text/javascript">
 
@@ -66,9 +66,6 @@
         //##############    2    ####################
         //Pulling data from .json file 
         d3.json("data/state_data.json", function(error, data) {
-
-          //Logging data to the console so we can make sure the data is bound
-          console.log(data);
 
           //Set our scale domains
           //data.map creates a new array with the result of a function of every element in the array
@@ -120,7 +117,6 @@
             .attr("dy", ".75em")
             .style("fill", "black")
             .text(function(d) { return d.state; });
-
         });
       </script>
     </div>

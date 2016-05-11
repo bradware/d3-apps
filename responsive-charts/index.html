@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Class Excercise 2 | Brad Ware</title>
+    <title>Responsive Charts | D3 Apps</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,18 +10,24 @@
     <meta name="author" content="Brad Ware">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 
     <!-- JS -->
-    <script type="text/javascript" src="../assets/d3/d3.min.js"></script>
+    <script type="text/javascript" src="/assets/d3/d3.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <!-- End of Header -->
   </head>
   <body class="container-fluid">
-    <h4><a href="/">← Back</a></h4>
+    <h4><a href="/" id="back">← Back</a></h4>
     <div class="content text-center">
-        <h1>Class Excercise 2</h1>
+      <h1>Responsive Charts</h1>
+      <div class="row">
+        <!-- Our graphs will be added inside this divider element -->
+        <div class="col-md-12 col-lg-6 graph" id="scatter-plot"></div>
+        <div class="col-md-12 col-lg-6 graph" id="bar-graph"></div>
+      </div>
+      <button type="button" class="btn filter-theme" id="reset-button">RESET</button>
     </div>
   </body>
 </html>

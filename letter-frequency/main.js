@@ -14,25 +14,23 @@
   // Creating the X Axis
   var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient('bottom');
   // Creating the Y Axis
   var yAxis = d3.svg.axis()
       .scale(y)
-      .orient("left")
-      .ticks(10, "%");
+      .orient('left')
+      .ticks(10, '%');
   // Creating an SVG canvas
-  var svg = d3.select(".content")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var svg = d3.select('.content')
+      .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
   // Load data from file with a specific type function
-  d3.csv("data/data.csv", type, function(error, data) {
-    
-    // log data to console for inspection
-    console.log(data);  
+  d3.csv('data/data.csv', type, function(error, data) {
+  
     if (error) throw error;
 
     /**
@@ -58,8 +56,8 @@
      * be already bound to the DOM
      *
      **/
-    svg.selectAll(".bar")
-      .on("click", barClick);
+    svg.selectAll('.bar')
+      .on('click', barClick);
   
   });
 
@@ -76,44 +74,44 @@
      * Play with the D3 filter method and understand how it works.
      * DONE: Filtered based on frequency
      **/
-    var selection = svg.selectAll(".bar")
+    var selection = svg.selectAll('.bar')
         .data(data)
         .enter()
-        .append("rect")
+        .append('rect')
     
     filterLetter(selection)
-        .attr("class", "bar")
-        .attr("x", function(d) { return x(d.letter); })
-        .attr("width", x.rangeBand())
-        .attr("y", function(d) { return y(d.frequency); })
-        .attr("height", function(d) { return height - y(d.frequency); });
+        .attr('class', 'bar')
+        .attr('x', function(d) { return x(d.letter); })
+        .attr('width', x.rangeBand())
+        .attr('y', function(d) { return y(d.frequency); })
+        .attr('height', function(d) { return height - y(d.frequency); });
   }
 
   function drawXAxis() {
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
+    svg.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0,' + height + ')')
         .call(xAxis)
-        .append("text")
-          .attr("y", 20)
-          .attr("x", (width / 2) - 10) // align in center
-          .attr("dy", ".85em")
-          .style("text-anchor", "start")
-          .style("font-size", "12px")
-          .text("Letters")
+        .append('text')
+          .attr('y', 20)
+          .attr('x', (width / 2) - 10) // align in center
+          .attr('dy', '.85em')
+          .style('text-anchor', 'start')
+          .style('font-size', '12px')
+          .text('Letters')
   }
 
   function drawYAxis() {
-    svg.append("g")
-        .attr("class", "y axis")
+    svg.append('g')
+        .attr('class', 'y axis')
         .call(yAxis)
-        .append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .style("font-size", "12px")
-          .text("Frequency");
+        .append('text')
+          .attr('transform', 'rotate(-90)')
+          .attr('y', 6)
+          .attr('dy', '.71em')
+          .style('text-anchor', 'end')
+          .style('font-size', '12px')
+          .text('Frequency');
   }
 
   /**
@@ -137,10 +135,10 @@
    **/
    function barClick() {
       d3.select(this)
-        .style("fill", "#00CC66")
+        .style('fill', '#00CC66')
         .transition()
           .duration(1000)
-          .attr("y", function(d) { return y(d.frequency) * Math.random(); });
+          .attr('y', function(d) { return y(d.frequency) * Math.random(); });
    }
 
  })();
